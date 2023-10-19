@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../Shared/Navbar";
+import Footer from "../Shared/Footer";
 
 
 const Root = () => {
@@ -7,7 +8,7 @@ const Root = () => {
         <div className="max-w-7xl mx-auto">
             <Navbar></Navbar>
             <Outlet></Outlet>
-            <h2>this is root file</h2>
+            <Footer></Footer>
         </div>
     );
 };

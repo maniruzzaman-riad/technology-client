@@ -3,7 +3,7 @@
 const AddProduct = () => {
 
 
-    const handleAddProduct=(e)=>{
+    const handleAddProduct = (e) => {
         e.preventDefault();
         const form = e.target;
 
@@ -15,8 +15,19 @@ const AddProduct = () => {
         const type = form.type.value;
         const description = form.description.value;
 
-        const product ={name,brand,price,rating,image,type,description}
-        console.log(product);
+        const newProduct = { name, brand, price, rating, image, type, description }
+        // console.log(newProduct);
+        fetch('http://localhost:5000/products', {
+            method: 'POST',
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newProduct)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
     }
 
     return (

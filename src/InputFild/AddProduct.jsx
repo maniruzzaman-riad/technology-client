@@ -50,7 +50,15 @@ const AddProduct = () => {
                                 <label className="label">
                                     <span className="label-text">Brand Name</span>
                                 </label>
-                                <input type="text" placeholder="Brand Name" name="brand" className="input input-bordered" required />
+                                <select type="select" name="brand" className="select select-bordered w-full max-w-xs">
+                                    <option disabled selected>Choose a Brand</option>
+                                    <option value="Apple">Apple</option>
+                                    <option value="Samsung">Samsung</option>
+                                    <option value="Intel">Intel</option>
+                                    <option value="Google">Google</option>
+                                    <option value="Walton">Walton</option>
+                                    <option value="Sony">Sony</option>
+                                </select>
                             </div>
                             <div className="form-control">
                                 <label className="label">

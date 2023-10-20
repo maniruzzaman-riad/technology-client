@@ -4,6 +4,7 @@ import Home from "../Shared/Home";
 import AddProduct from "../InputFild/AddProduct";
 import Login from "../InputFild/Login";
 import Register from "../InputFild/Register";
+import Products from "../CardPages/Products";
 
 
 const router = createBrowserRouter([
@@ -14,6 +15,11 @@ const router = createBrowserRouter([
             {
                 path:'/',
                 element:<Home></Home>
+            },
+            {
+                path:'/products/:brandName',
+                element:<Products></Products>,
+                // loader:({params})=>fetch(`http://localhost:5000/products/${params}`)
             },
             {
                 path:'/addProduct',

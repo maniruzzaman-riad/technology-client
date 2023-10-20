@@ -1,8 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc';
+import { useContext } from "react";
+import { AuthContext } from "../ContextApi/AuthProvider";
 
 
 const Login = () => {
+    const {handleLoginUser,handleSignInGoogle}=useContext(AuthContext)
+    const navigate = useNavigate()
 
     const handleLoginField = (e) =>{
         e.preventDefault()
@@ -10,6 +14,18 @@ const Login = () => {
         const email = form.get('email');
         const password = form.get('password');
         console.log(email,password);
+
+        handleLoginUser(email,password)
+        .then()
+        .catch()
+    }
+    const handleGoogleLogin=()=>{
+        handleSignInGoogle()
+        .then(userLoged=>{
+            if(userLoged){
+                navigate('/')
+            }
+        })
     }
 
     return (
@@ -41,7 +57,7 @@ const Login = () => {
                                 <button className="btn btn-primary">Login</button>
                             </div>
                         </form>
-                        <button className=" flex items-center justify-center gap-3 border-2 w-1/2 mx-auto py-2 font-bold rounded-lg border-purple-600 hover:bg-purple-400"><FcGoogle></FcGoogle> Login with Google</button>
+                        <button onClick={handleGoogleLogin} className=" flex items-center justify-center gap-3 border-2 w-1/2 mx-auto py-2 font-bold rounded-lg border-purple-600 hover:bg-purple-400"><FcGoogle></FcGoogle> Login with Google</button>
 
                         <h2 className="text-center my-5 font-semibold">If you have no account, Please <Link to="/register"><span className="py-1 px-3 bg-green-600 rounded-lg text-white font-semibold">Registration</span></Link></h2>
                     </div>

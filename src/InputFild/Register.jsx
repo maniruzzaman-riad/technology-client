@@ -1,15 +1,33 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../ContextApi/AuthProvider";
+import { updateProfile } from "firebase/auth";
 
 
 const Register = () => {
+    const { handleUserRegistration } = useContext(AuthContext)
+    const navigate = useNavigate()
 
-    const handleRegisterField=(e)=>{
+    const handleRegisterField = (e) => {
         e.preventDefault()
         const form = new FormData(e.currentTarget);
         const name = form.get('name');
         const email = form.get('email');
         const password = form.get('password')
         console.log(name, email, password);
+
+
+        handleUserRegistration(email,password)
+        .then(user=>{
+            updateProfile(user.user,{
+                displayName:name
+            })
+            .then(
+                navigate('/')
+            )
+            .catch()
+        })
+        .catch()
     }
 
     return (
@@ -42,7 +60,7 @@ const Register = () => {
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label> */}
                             </div>
-                            
+
                             <div className="form-control mt-6">
                                 <button className="btn btn-primary">Registration</button>
                             </div>

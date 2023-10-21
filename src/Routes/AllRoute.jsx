@@ -5,6 +5,8 @@ import AddProduct from "../InputFild/AddProduct";
 import Login from "../InputFild/Login";
 import Register from "../InputFild/Register";
 import Products from "../CardPages/Products";
+import Update from "../InputFild/Update";
+import Details from "../CardPages/Details";
 
 
 const router = createBrowserRouter([
@@ -24,6 +26,16 @@ const router = createBrowserRouter([
             {
                 path:'/addProduct',
                 element:<AddProduct></AddProduct>
+            },
+            {
+                path:'/update/:id',
+                element:<Update></Update>,
+                loader:({params})=>fetch(`http://localhost:5000/product/${params.id}`)
+            },
+            {
+                path:'/details/:id',
+                element:<Details></Details>,
+                loader:({params})=>fetch(`http://localhost:5000/product/${params.id}`)
             },
             {
                 path:'/login',

@@ -4,6 +4,21 @@ import { useLoaderData } from "react-router-dom";
 const Details = () => {
     const singleProduct = useLoaderData()
     const { name, brand, image, rating, price, type, description } = singleProduct
+
+    const handleAddToCart=()=>{
+        fetch('http://localhost:5000/cart',{
+            method:"POST",
+            headers:{
+                "content-type":"application/json"
+            },
+            body:JSON.stringify(singleProduct)
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data);
+        })
+    }
+
     return (
         <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2">
@@ -19,7 +34,7 @@ const Details = () => {
                 <p>{description}</p>
                 <div className="flex justify-between">
                     <h2>Ratind : {rating}</h2>
-                    <button>Add to Cart</button>
+                    <button onClick={handleAddToCart}>Add to Cart</button>
                 </div>
             </div>
             <div>

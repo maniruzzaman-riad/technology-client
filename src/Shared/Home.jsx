@@ -16,7 +16,7 @@ const Home = () => {
     return (
         <div>
             <Banner></Banner>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 mt-8">
                 {
                     brands.map(brand=><Brand key={brand.id} brand={brand}></Brand>)
                 }

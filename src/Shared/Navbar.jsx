@@ -1,7 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../ContextApi/AuthProvider";
+// import { HiOutlineLogin } from 'react-icons/hi';
+import { LuLogOut, LuLogIn } from 'react-icons/lu';
+// import AuthProvider from "../ContextApi/AuthProvider";
 
 
 const Navbar = () => {
+    const { user, handleUserLogout } = useContext(AuthContext)
+    console.log(user);
 
     const allMenu = <>
         <li><NavLink to="/">Home</NavLink></li>
@@ -10,9 +17,15 @@ const Navbar = () => {
         <li><NavLink to="/login">Login</NavLink></li>
     </>
 
+    const handleLogOut = () => {
+        handleUserLogout()
+            .then()
+            .catch()
+    }
+
     return (
-        <div>
-            <div className="navbar bg-base-100">
+        <div className=" bg-orange-400">
+            <div className="navbar">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -26,13 +39,26 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                       {allMenu}
+                        {allMenu}
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    {
+                        user ? <button onClick={handleLogOut} className="btn btn-outline btn-primary">LogOut <LuLogOut className="text-xl"></LuLogOut></button> : <Link to="/login"><button className="btn btn-success hover:bg-green-700">Login <LuLogIn className="text-xl"></LuLogIn></button></Link>
+                    }
+
                 </div>
             </div>
+
+            {
+                user && <>
+                    <hr className="border mx-5" />
+                    <div className="flex justify-center items-center gap-3 p-3">
+                        <h2 className="text-xl font-bold">{user.displayName}</h2>
+                        <img className="w-12 rounded-full" src={user.photoURL} alt="" />
+                    </div>
+                </>
+            }
         </div>
     );
 };

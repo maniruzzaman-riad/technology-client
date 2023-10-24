@@ -1,22 +1,57 @@
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 
 const Details = () => {
     const singleProduct = useLoaderData()
-    const { name, brand, image, rating, price, type, description } = singleProduct
+    const [allCart, setAllCart] = useState([])
+    const [change,setChange]=useState(false)
+    const { _id, name, brand, image, rating, price, type, description } = singleProduct
 
-    const handleAddToCart=()=>{
-        fetch('http://localhost:5000/cart',{
-            method:"POST",
-            headers:{
-                "content-type":"application/json"
-            },
-            body:JSON.stringify(singleProduct)
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data);
-        })
+    // console.log(change);
+    // console.log(allCart);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/cart')
+            .then(res => res.json())
+            .then(cartData => setAllCart(cartData))
+    }, [change])
+
+    const handleAddToCart = (id) => {
+        setChange(true)
+        const previewCarts = allCart.find(matchCart => matchCart._id === id)
+
+        if (!previewCarts) {
+            fetch('http://localhost:5000/cart', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(singleProduct)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Add to Cart Succesfully',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                    }
+                    console.log(data);
+                })
+        }else if(previewCarts){
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Already added Cart',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        }
     }
 
     return (
@@ -34,11 +69,11 @@ const Details = () => {
                 <p>{description}</p>
                 <div className="flex justify-between">
                     <h2>Ratind : {rating}</h2>
-                    <button onClick={handleAddToCart}>Add to Cart</button>
+                    <button onClick={() => handleAddToCart(_id)} className="bg-green-500 px-3 py-1 rounded-lg font-bold hover:bg-green-700 hover:text-white">Add to Cart</button>
                 </div>
             </div>
             <div>
-                <h2>sideBar</h2>
+                <img className="h-full" src="https://i.ibb.co/ZTYvKkx/store.jpg" alt="" />
             </div>
         </div>
     );

@@ -1,31 +1,56 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc';
 import { useContext } from "react";
 import { AuthContext } from "../ContextApi/AuthProvider";
+import Swal from 'sweetalert2'
 
 
 const Login = () => {
-    const {handleLoginUser,handleSignInGoogle}=useContext(AuthContext)
+    const { handleLoginUser, handleSignInGoogle } = useContext(AuthContext)
+    const location = useLocation()
     const navigate = useNavigate()
 
-    const handleLoginField = (e) =>{
+    const handleLoginField = (e) => {
         e.preventDefault()
         const form = new FormData(e.currentTarget);
         const email = form.get('email');
         const password = form.get('password');
-        console.log(email,password);
+        console.log(email, password);
 
-        handleLoginUser(email,password)
-        .then()
-        .catch()
+        handleLoginUser(email, password)
+            .then(result => {
+                if (result) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Login Succesfully',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                    navigate(location?.state ? location.state : '/')
+                }
+            })
+            .catch(error => {
+                if (error) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'User not metch',
+                        text: "Check Your Email and Password",
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                }
+            })
     }
-    const handleGoogleLogin=()=>{
+    const handleGoogleLogin = () => {
         handleSignInGoogle()
-        .then(userLoged=>{
-            if(userLoged){
-                navigate('/')
-            }
-        })
+            .then(userLoged => {
+                if (userLoged) {
+                    navigate(location?.state ? location.state : '/')
+                }
+            })
+            .catch()
     }
 
     return (

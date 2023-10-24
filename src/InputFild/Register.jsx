@@ -1,11 +1,13 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../ContextApi/AuthProvider";
 import { updateProfile } from "firebase/auth";
+import Swal from 'sweetalert2'
 
 
 const Register = () => {
     const { handleUserRegistration } = useContext(AuthContext)
+    const [passwordCheck, setPasswordCheck] = useState("")
     const navigate = useNavigate()
 
     const handleRegisterField = (e) => {
@@ -14,20 +16,41 @@ const Register = () => {
         const name = form.get('name');
         const email = form.get('email');
         const password = form.get('password')
-        console.log(name, email, password);
+        // console.log(name, email, password);
+        setPasswordCheck('')
 
+        if (password.length < 6) {
+            setPasswordCheck('Please password add minimum 6 characters')
+            return;
+        }
+        else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(password)) {
+            setPasswordCheck('Use must one uppercase, one lowercase, one number and one special character')
+            return;
+        }
 
-        handleUserRegistration(email,password)
-        .then(user=>{
-            updateProfile(user.user,{
-                displayName:name
+        handleUserRegistration(email, password)
+            .then(user => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Registration Succesfull',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                updateProfile(user.user, {
+                    displayName: name
+                })
+                    .then(
+                        navigate('/')
+                    )
+                    .catch()
             })
-            .then(
-                navigate('/')
-            )
-            .catch()
-        })
-        .catch()
+            .catch(error=>{
+                if(error){
+                    setPasswordCheck('Email-already-in-use')
+                }
+                // console.log(error.message);
+            })
     }
 
     return (
@@ -56,10 +79,10 @@ const Register = () => {
                                     <span className="label-text">Password</span>
                                 </label>
                                 <input type="password" placeholder="password" name="password" className="input input-bordered" required />
-                                {/* <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                                </label> */}
                             </div>
+                            {
+                                passwordCheck && <h2 className="text-center my-5 font-semibold text-red-600">{passwordCheck}</h2>
+                            }
 
                             <div className="form-control mt-6">
                                 <button className="btn btn-primary">Registration</button>

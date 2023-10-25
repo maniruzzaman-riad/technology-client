@@ -47,6 +47,13 @@ const Login = () => {
         handleSignInGoogle()
             .then(userLoged => {
                 if (userLoged) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Login Succesfully',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
                     navigate(location?.state ? location.state : '/')
                 }
             })

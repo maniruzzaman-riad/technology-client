@@ -1,4 +1,4 @@
-
+import Swal from 'sweetalert2'
 
 const AddProduct = () => {
 
@@ -17,7 +17,7 @@ const AddProduct = () => {
 
         const newProduct = { name, brand, price, rating, image, type, description }
         // console.log(newProduct);
-        fetch('http://localhost:5000/products', {
+        fetch('https://technology-10th-assignment-server.vercel.app/products', {
             method: 'POST',
             headers: {
                 "content-type": "application/json"
@@ -26,7 +26,17 @@ const AddProduct = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
+                if (data) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'New Product Added',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    e.target.reset()
+                }
             })
     }
 
@@ -34,59 +44,64 @@ const AddProduct = () => {
         <div>
             <div className="">
                 <div className="">
+                    <h1 className="text-5xl font-bold text-center mb-5">Add a New Product</h1>
                     {/* <div className="text-center lg:text-left">
                         <h1 className="text-5xl font-bold">Login now!</h1>
                         <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                     </div> */}
                     <div className="shadow-2xl bg-base-100">
                         <form onSubmit={handleAddProduct} className="card-body">
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Name</span>
-                                </label>
-                                <input type="text" placeholder="Name" name="name" className="input input-bordered" required />
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="text-base font-bold">Name *</span>
+                                    </label>
+                                    <input type="text" placeholder="Name" name="name" className="input input-bordered" required />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="text-base font-bold">Brand Name *</span>
+                                    </label>
+                                    <select type="select" name="brand" className="select select-bordered w-full">
+                                        <option disabled selected>Choose a Brand</option>
+                                        <option value="Apple">Apple</option>
+                                        <option value="Samsung">Samsung</option>
+                                        <option value="Intel">Intel</option>
+                                        <option value="Google">Google</option>
+                                        <option value="Walton">Walton</option>
+                                        <option value="Sony">Sony</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="text-base font-bold">Price *</span>
+                                    </label>
+                                    <input type="text" placeholder="Price" name="price" className="input input-bordered" required />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="text-base font-bold">Rating *</span>
+                                    </label>
+                                    <input type="text" placeholder="Rating" name="rating" className="input input-bordered" required />
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="text-base font-bold">Type *</span>
+                                    </label>
+                                    <input type="text" placeholder="Category" name="type" className="input input-bordered" required />
+                                </div>
                             </div>
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Brand Name</span>
-                                </label>
-                                <select type="select" name="brand" className="select select-bordered w-full max-w-xs">
-                                    <option disabled selected>Choose a Brand</option>
-                                    <option value="Apple">Apple</option>
-                                    <option value="Samsung">Samsung</option>
-                                    <option value="Intel">Intel</option>
-                                    <option value="Google">Google</option>
-                                    <option value="Walton">Walton</option>
-                                    <option value="Sony">Sony</option>
-                                </select>
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Price</span>
-                                </label>
-                                <input type="text" placeholder="Price" name="price" className="input input-bordered" required />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Rating</span>
-                                </label>
-                                <input type="text" placeholder="Rating" name="rating" className="input input-bordered" required />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Image</span>
+                                    <span className="text-base font-bold">Image *</span>
                                 </label>
                                 <input type="text" placeholder="Image Link" name="image" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Type</span>
-                                </label>
-                                <input type="text" placeholder="Category" name="type" className="input input-bordered" required />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Description</span>
+                                    <span className="text-base font-bold">Description *</span>
                                 </label>
                                 <textarea className="input input-bordered" placeholder="Write Your Short description" name="description" id="" cols="30" rows="10" required></textarea>
                             </div>

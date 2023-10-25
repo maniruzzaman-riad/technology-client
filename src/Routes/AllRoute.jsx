@@ -23,7 +23,7 @@ const router = createBrowserRouter([
             {
                 path:'/products/:brandName',
                 element:<Products></Products>,
-                // loader:({params})=>fetch(`http://localhost:5000/products/${params}`)
+                // loader:({params})=>fetch(`https://technology-10th-assignment-server.vercel.app/products/${params}`)
             },
             {
                 path:'/addProduct',
@@ -32,17 +32,17 @@ const router = createBrowserRouter([
             {
                 path:'/update/:id',
                 element:<PrivateRoute><Update></Update></PrivateRoute>,
-                loader:({params})=>fetch(`http://localhost:5000/product/${params.id}`)
+                loader:({params})=>fetch(`https://technology-10th-assignment-server.vercel.app/product/${params.id}`)
             },
             {
                 path:'/details/:id',
                 element:<PrivateRoute><Details></Details></PrivateRoute>,
-                loader:({params})=>fetch(`http://localhost:5000/product/${params.id}`)
+                loader:({params})=>fetch(`https://technology-10th-assignment-server.vercel.app/product/${params.id}`)
             },
             {
                 path:'/cart',
                 element:<PrivateRoute><Carts></Carts></PrivateRoute>,
-                loader:()=>fetch('http://localhost:5000/cart')
+                loader:()=>fetch('https://technology-10th-assignment-server.vercel.app/cart')
             },
             {
                 path:'/login',

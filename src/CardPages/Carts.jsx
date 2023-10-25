@@ -13,7 +13,7 @@ const Carts = () => {
 
     const handleDeleteCart = (id) => {
         console.log(id);
-        fetch(`http://localhost:5000/cart/${id}`, {
+        fetch(`https://technology-10th-assignment-server.vercel.app/cart/${id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())
@@ -45,7 +45,7 @@ const Carts = () => {
                             <div className="border-2 border-purple-600 rounded-lg flex justify-between pe-5 md:pe-12 items-center mb-4">
                                 <div className="flex items-center gap-7">
                                     <img className="w-40 h-40" src={cart.image} alt="" />
-                                    <div className="text-xl font-bold space-y-3">
+                                    <div className="text-xl font-bold space-y-3 hidden md:block">
                                         <h2>{cart.name}</h2>
                                         <h2>{cart.price} BDT</h2>
                                         <h2>Brand : {cart.brand}</h2>
